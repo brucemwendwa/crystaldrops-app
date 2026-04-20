@@ -68,7 +68,7 @@ export default function ProductDetails() {
               {availableTypes.map(type => {
                 const price = product.prices[type];
                 let displayType = type.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                if ((type === 'parcel' || type === 'branded parcel') && product.parcelQuantity) {
+                if ((type === 'parcel' || type === 'customised parcel') && product.parcelQuantity) {
                   displayType += ` (${product.parcelQuantity} bottles)`;
                 }
                 return (

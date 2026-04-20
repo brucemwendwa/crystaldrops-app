@@ -111,7 +111,7 @@ export default function Home() {
             Health and safety start with what you drink. CrystalDrops is bottled in a controlled, sanitary
             environment—so every sip is clean, refreshing, and safe for your family.
           </p>
-          <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg water-refraction" style={{ color: 'white', WebkitTextFillColor: 'white' }}>
+          <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg btn-refraction">
             Order Now
           </button>
         </div>
@@ -297,7 +297,7 @@ export default function Home() {
         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: 32, maxWidth: 560, marginInline: 'auto' }}>
           Order now for doorstep delivery across Nairobi, Machakos, and Makueni.
         </p>
-        <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg water-refraction" style={{ color: 'white', WebkitTextFillColor: 'white' }}>
+        <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg btn-refraction">
           Order Now
         </button>
       </section>

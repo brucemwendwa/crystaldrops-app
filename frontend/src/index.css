@@ -557,6 +557,19 @@ footer {
   animation: shimmer 3s linear infinite;
 }
 
+.btn-refraction {
+  background: linear-gradient(
+    to right,
+    var(--primary) 20%,
+    #38bdf8 40%,
+    var(--primary) 60%,
+    #0284c7 80%
+  );
+  background-size: 200% auto;
+  color: white !important;
+  animation: shimmer 3s linear infinite;
+}
+
 @keyframes shimmer {
   to {
     background-position: 200% center;

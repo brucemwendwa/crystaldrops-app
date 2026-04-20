@@ -89,7 +89,7 @@ export default function Shop() {
             <h2 className="product-title" style={{ fontSize: '1.25rem' }}>{product.name}</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 18 }}>
               {product.prices.single && <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>Single: KES {product.prices.single}</p>}
-              <p className="product-price" style={{ margin: 0, fontSize: '1.2rem' }}>Parcel: KES {product.prices.parcel}</p>
+              {product.prices.parcel && <p className="product-price" style={{ margin: 0, fontSize: '1.2rem' }}>Parcel: KES {product.prices.parcel}</p>}
               {product.prices.refill && <p style={{ fontSize: '1rem', color: 'var(--primary)' }}>Refill: KES {product.prices.refill}</p>}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

@@ -7,15 +7,9 @@ import { formatApiError } from '../utils/apiError';
 const LAST_ORDER_KEY = 'lastOrderSnapshot';
 
 const KENYA_LOCATIONS = {
-  "Nairobi": {
-    "Nairobi City": ["Westlands", "Kilimani", "Kileleshwa", "Lavington", "CBD", "Karen", "Lang'ata", "Kasarani", "Embakasi"]
-  },
-  "Makueni": {
-    "Makueni": ["Wote", "Mtito Andei", "Kibwezi", "Makindu", "Mukuyuni", "Mbumbuni", "Kathonzweni", "Mbuvo", "Kitise", "Matiliku"]
-  },
-  "Machakos": {
-    "Machakos Town": ["Mlolongo", "Athi River", "Syokimau"]
-  }
+  "Nairobi": ["Westlands", "Kilimani", "Kileleshwa", "Lavington", "CBD", "Karen", "Lang'ata", "Kasarani", "Embakasi"],
+  "Makueni": ["Wote", "Mtito Andei", "Kibwezi", "Makindu", "Mukuyuni", "Mbumbuni", "Kathonzweni", "Mbuvo", "Kitise", "Matiliku"],
+  "Machakos": ["Mlolongo", "Athi River", "Syokimau"]
 };
 
 function normalizePhone(v) {
@@ -30,7 +24,7 @@ function isValidKePhone(v) {
 export default function Checkout() {
   const { cart, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: '', phone: '', county: '', town: '', area: '', landmark: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', county: '', area: '', landmark: '' });
   const [paymentMethod, setPaymentMethod] = useState('mpesa');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -55,7 +49,6 @@ export default function Checkout() {
     if (!isValidKePhone(formData.phone)) nextErrors.phone = 'Use a valid Kenya number e.g. 254712345678 or 0712345678.';
     
     if (!formData.county) nextErrors.county = 'Please select a county';
-    if (!formData.town) nextErrors.town = 'Please select a town';
     if (!formData.area) nextErrors.area = 'Please select an area';
     
     const l = formData.landmark.trim().toLowerCase();
@@ -67,7 +60,7 @@ export default function Checkout() {
     setLoading(true);
 
     try {
-      const fullLocation = `${formData.county}, ${formData.town}, ${formData.area} - ${formData.landmark}`;
+      const fullLocation = `${formData.county}, ${formData.area} - ${formData.landmark}`;
       const orderData = {
         items: cart.map(item => ({ name: `${item.name} (${item.purchaseType})`, quantity: item.quantity, price: item.cartPrice })),
         total,
@@ -149,7 +142,7 @@ export default function Checkout() {
 
             <div className="form-group">
               <label htmlFor="co-county">County</label>
-              <select id="co-county" value={formData.county} onChange={(e) => setFormData({ ...formData, county: e.target.value, town: '', area: '' })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
+              <select id="co-county" value={formData.county} onChange={(e) => setFormData({ ...formData, county: e.target.value, area: '' })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
                 <option value="">Select County</option>
                 {Object.keys(KENYA_LOCATIONS).map(c => <option key={c} value={c}>{c}</option>)}
               </select>
@@ -157,21 +150,10 @@ export default function Checkout() {
 
               {formData.county && (
                 <>
-                  <label htmlFor="co-town">Town</label>
-                  <select id="co-town" value={formData.town} onChange={(e) => setFormData({ ...formData, town: e.target.value, area: '' })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
-                    <option value="">Select Town</option>
-                    {Object.keys(KENYA_LOCATIONS[formData.county]).map(t => <option key={t} value={t}>{t}</option>)}
-                  </select>
-                  {errors.town && <div style={{ color: '#dc2626', fontSize: '0.9rem', marginBottom: 12 }}>{errors.town}</div>}
-                </>
-              )}
-
-              {formData.town && (
-                <>
                   <label htmlFor="co-area">Area</label>
                   <select id="co-area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
                     <option value="">Select Area</option>
-                    {KENYA_LOCATIONS[formData.county][formData.town].map(a => <option key={a} value={a}>{a}</option>)}
+                    {KENYA_LOCATIONS[formData.county].map(a => <option key={a} value={a}>{a}</option>)}
                   </select>
                   {errors.area && <div style={{ color: '#dc2626', fontSize: '0.9rem', marginBottom: 12 }}>{errors.area}</div>}
                 </>

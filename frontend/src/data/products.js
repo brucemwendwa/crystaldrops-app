@@ -9,8 +9,8 @@ export const products = [
     price: 30, // Default display price (single)
     size: '0.5L',
     image: '/images/bottle_05l.png',
-    description: 'Perfect for quick hydration on the go. Fits easily in bags and cup holders. A custom-branded parcel is available for KES 420.',
-    prices: { single: 30, parcel: 350, 'branded parcel': 420 },
+    description: 'Perfect for quick hydration on the go. Fits easily in bags and cup holders. A customised parcel is available for KES 420.',
+    prices: { single: 30, parcel: 350, 'customised parcel': 420 },
     parcelQuantity: 24,
     source, purification, benefits
   },
