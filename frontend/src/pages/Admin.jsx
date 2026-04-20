@@ -366,7 +366,7 @@ function PayrollTab() {
         <h2 className="table-title" style={{ marginBottom: 20 }}>Weekly Summary (Current Week)</h2>
         <table>
           <thead>
-            <tr><th>Employee</th><th>Shifts Logged</th><th>Base Pay (KES 350/shift)</th><th>Production Bonus (10% > 200)</th><th>Total Due</th></tr>
+            <tr><th>Employee</th><th>Shifts Logged</th><th>Base Pay (KES 350/shift)</th><th>Production Bonus (10% &gt; 200)</th><th>Total Due</th></tr>
           </thead>
           <tbody>
             <tr>
