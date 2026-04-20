@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getAdminOrders, updateOrderStatus } from '../api';
 import { socket } from '../socket';
 import { useNavigate } from 'react-router-dom';
-import { LayoutDashboard, ShoppingCart, Factory, Truck, Store, Users, DollarSign, LogOut } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Factory, Truck, Store, Users, DollarSign, LogOut, Package } from 'lucide-react';
 import './Admin.css';
 import { formatApiError } from '../utils/apiError';
 
@@ -54,6 +54,7 @@ export default function Admin() {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard Overview', icon: LayoutDashboard },
     { id: 'production', label: 'Factory Production', icon: Factory },
+    { id: 'inventory', label: 'Raw Materials', icon: Package },
     { id: 'dispatch', label: 'Logistics & Dispatch', icon: Truck },
     { id: 'depots', label: 'Depot Management', icon: Store },
     { id: 'employees', label: 'HR & Attendance', icon: Users },
@@ -67,9 +68,9 @@ export default function Admin() {
   };
 
   return (
-    <div className="admin-body">
-      {/* Sidebar */}
-      <aside className="admin-sidebar">
+    <div className="admin-body" style={{ flexDirection: 'column' }}>
+      {/* Top Nav */}
+      <header className="admin-top-nav">
           <div className="brand" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
               <img src="/images/logo.png" alt="" width="32" height="32" style={{ width: 32, height: 32, objectFit: 'contain' }} />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -77,36 +78,39 @@ export default function Admin() {
               </div>
           </div>
           
-          <nav className="nav-menu">
+          <nav className="horizontal-nav">
               {navItems.map(item => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
                   className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
-                  style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                  style={{ background: 'none', cursor: 'pointer' }}
                 >
-                    <item.icon size={22} />
+                    <item.icon size={20} />
                     {item.label}
                 </button>
               ))}
+          </nav>
+          
+          <div className="nav-actions">
               <button
                 onClick={() => navigate('/')}
                 className="nav-item"
-                style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', marginTop: 'auto' }}
+                style={{ background: 'none', cursor: 'pointer' }}
               >
-                  <ShoppingCart size={22} />
-                  Go to Store
+                  <ShoppingCart size={20} />
+                  Store
               </button>
               <button
                 onClick={handleLogout}
                 className="nav-item"
-                style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', color: '#ef4444' }}
+                style={{ background: 'none', cursor: 'pointer', color: '#ef4444' }}
               >
-                  <LogOut size={22} />
+                  <LogOut size={20} />
                   Logout
               </button>
-          </nav>
-      </aside>
+          </div>
+      </header>
 
       {/* Main Content */}
       <main className="admin-main">
@@ -130,6 +134,7 @@ export default function Admin() {
           <div className="content-area">
               {activeTab === 'dashboard' && <DashboardTab orders={orders} handleStatusUpdate={handleStatusUpdate} />}
               {activeTab === 'production' && <ProductionTab />}
+              {activeTab === 'inventory' && <InventoryTab />}
               {activeTab === 'dispatch' && <DispatchTab />}
               {activeTab === 'depots' && <DepotsTab />}
               {activeTab === 'employees' && <EmployeesTab />}
@@ -392,6 +397,26 @@ function PayrollTab() {
              <strong>Bonus Logic Active:</strong> Total factory production exceeded 200 parcels this week. 10% bonus calculated automatically per worker.
            </p>
         </div>
+      </div>
+    </>
+  );
+}
+
+function InventoryTab() {
+  return (
+    <>
+      <div className="page-header"><h1 className="page-title">Inventory & Raw Materials</h1></div>
+      <div className="table-container">
+        <h2 className="table-title" style={{ marginBottom: 20 }}>Log Empty Bottles Purchased</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+          {['0.5L', '1L', '1.5L', '5L', '10L', '20L'].map(size => (
+            <div key={size} style={{ background: 'rgba(255,255,255,0.03)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)' }}>
+              <label style={{ display: 'block', color: '#94A3B8', marginBottom: 8 }}>{size} Bottles</label>
+              <input type="number" placeholder="0" style={{ width: '100%', padding: '10px', borderRadius: 8, background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+          ))}
+        </div>
+        <button className="btn-primary" style={{ marginTop: 24, width: '200px', justifyContent: 'center' }}>Record Purchase</button>
       </div>
     </>
   );

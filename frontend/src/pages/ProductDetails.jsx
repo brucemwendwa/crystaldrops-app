@@ -10,9 +10,11 @@ export default function ProductDetails() {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
 
-  const [purchaseType, setPurchaseType] = useState('Parcel');
-
   const product = products.find((p) => p.id === id);
+
+  const availableTypes = product ? Object.keys(product.prices || {}) : [];
+  const defaultType = availableTypes.includes('parcel') ? 'parcel' : availableTypes[0];
+  const [purchaseType, setPurchaseType] = useState(defaultType);
 
   if (!product) {
     return (
@@ -28,7 +30,7 @@ export default function ProductDetails() {
     window.alert(`Added ${quantity} ${purchaseType} of ${product.name} to cart`);
   };
 
-  const currentPrice = product.prices[purchaseType.toLowerCase()] || product.price;
+  const currentPrice = product.prices[purchaseType] || product.price;
 
   return (
     <div className="container" style={{ marginTop: 24, maxWidth: 1000 }}>
@@ -63,9 +65,12 @@ export default function ProductDetails() {
           <div style={{ marginBottom: 20 }}>
             <h3 style={{ fontSize: '1.1rem', marginBottom: 12 }}>Purchase Type</h3>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              {['Single', 'Parcel', 'Refill'].map(type => {
-                const price = product.prices[type.toLowerCase()];
-                if (!price) return null;
+              {availableTypes.map(type => {
+                const price = product.prices[type];
+                let displayType = type.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                if ((type === 'parcel' || type === 'branded parcel') && product.parcelQuantity) {
+                  displayType += ` (${product.parcelQuantity} bottles)`;
+                }
                 return (
                   <label key={type} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', background: 'var(--surface)', padding: '10px 16px', borderRadius: 8, border: purchaseType === type ? '2px solid var(--primary)' : '1px solid var(--glass-border)' }}>
                     <input
@@ -76,7 +81,7 @@ export default function ProductDetails() {
                       onChange={() => setPurchaseType(type)}
                       style={{ display: 'none' }}
                     />
-                    <span style={{ fontWeight: 600 }}>{type}</span>
+                    <span style={{ fontWeight: 600 }}>{displayType}</span>
                     <span style={{ color: 'var(--text-muted)' }}>KES {price}</span>
                   </label>
                 );

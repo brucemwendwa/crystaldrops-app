@@ -9,8 +9,9 @@ export const products = [
     price: 30, // Default display price (single)
     size: '0.5L',
     image: '/images/bottle_05l.png',
-    description: 'Perfect for quick hydration on the go. Fits easily in bags and cup holders.',
-    prices: { single: 30, parcel: 350 },
+    description: 'Perfect for quick hydration on the go. Fits easily in bags and cup holders. A custom-branded parcel is available for KES 420.',
+    prices: { single: 30, parcel: 350, 'branded parcel': 420 },
+    parcelQuantity: 24,
     source, purification, benefits
   },
   {
@@ -21,6 +22,7 @@ export const products = [
     image: '/images/bottle_1l.png',
     description: 'The standard size for daily hydration. Ideal for meals and workouts.',
     prices: { single: 40, parcel: 350 },
+    parcelQuantity: 12,
     source, purification, benefits
   },
   {
@@ -31,6 +33,7 @@ export const products = [
     image: '/images/bottle_15l.png',
     description: 'Great for sharing or keeping on your desk throughout the workday.',
     prices: { single: 50, parcel: 350, refill: 10 },
+    parcelQuantity: 12,
     source, purification, benefits
   },
   {
@@ -41,6 +44,7 @@ export const products = [
     image: '/images/bottle_5l.png',
     description: 'Perfect for small families or weekend trips. Easy-pour handle.',
     prices: { single: 100, parcel: 350, refill: 50 },
+    parcelQuantity: 4,
     source, purification, benefits
   },
   {
@@ -50,7 +54,7 @@ export const products = [
     size: '10L',
     image: '/images/bottle_10l.png',
     description: 'Great for households that want fewer deliveries. Easy-carry and easy-pour.',
-    prices: { parcel: 280, refill: 100 },
+    prices: { single: 280, refill: 100 },
     source, purification, benefits
   },
   {
@@ -60,7 +64,7 @@ export const products = [
     size: '20L',
     image: '/images/bottle_20l.png',
     description: 'Designed for water dispensers—the most economical choice for homes and offices. Refill program available.',
-    prices: { parcel: 380, refill: 200 },
+    prices: { single: 380, refill: 200 },
     source, purification, benefits
   }
 ];

@@ -10,10 +10,8 @@ const KENYA_LOCATIONS = {
   "Nairobi": {
     "Nairobi City": ["Westlands", "Kilimani", "Kileleshwa", "Lavington", "CBD", "Karen", "Lang'ata", "Kasarani", "Embakasi"]
   },
-  "Kiambu": {
-    "Kiambu Town": ["Thindigua", "Ridgeways", "Ndumberi"],
-    "Ruiru": ["Kihunguro", "Membley", "Kamakis"],
-    "Thika": ["Makongeni", "Section 9", "Garrisa Road"]
+  "Makueni": {
+    "Makueni": ["Wote", "Mtito Andei", "Kibwezi", "Makindu", "Mukuyuni", "Mbumbuni", "Kathonzweni", "Mbuvo", "Kitise", "Matiliku"]
   },
   "Machakos": {
     "Machakos Town": ["Mlolongo", "Athi River", "Syokimau"]
@@ -218,9 +216,9 @@ export default function Checkout() {
 
             <ul style={{ listStyle: 'none', marginBottom: 20, paddingBottom: 20, borderBottom: '1px solid var(--glass-border)' }}>
               {cart.map((item) => (
-                <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, fontSize: '0.95rem' }}>
-                  <span>{item.quantity}× {item.name}</span>
-                  <span>KES {item.price * item.quantity}</span>
+                <li key={item.cartItemId} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, fontSize: '0.95rem' }}>
+                  <span>{item.quantity}× {item.name} ({item.purchaseType})</span>
+                  <span>KES {item.cartPrice * item.quantity}</span>
                 </li>
               ))}
             </ul>

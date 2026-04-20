@@ -106,12 +106,12 @@ export default function Home() {
       <header className="hero" id="home">
         <div className="hero-bg" style={{ backgroundImage: 'url(/images/hero.png)' }} aria-hidden />
         <div className="hero-content">
-          <h1>Pure, Safe Drinking Water Delivered to Your Door</h1>
+          <h1 className="water-refraction">Pure, Safe Drinking Water Delivered to Your Door</h1>
           <p>
             Health and safety start with what you drink. CrystalDrops is bottled in a controlled, sanitary
             environment—so every sip is clean, refreshing, and safe for your family.
           </p>
-          <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg">
+          <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg water-refraction" style={{ color: 'white', WebkitTextFillColor: 'white' }}>
             Order Now
           </button>
         </div>
@@ -147,7 +147,7 @@ export default function Home() {
         >
           Bottled water sizes for every need—from pocket-friendly 0.5L to office-ready 20L refillable bottles.
         </p>
-        <div className="product-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div className="product-grid">
           {products.map((product) => (
             <div key={product.id} className="product-card">
               <button
@@ -165,12 +165,17 @@ export default function Home() {
                   height={220}
                 />
               </button>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: 6, color: 'var(--text-color)' }}>{product.name}</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 8 }}>{product.size}</p>
-              <p style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 16 }}>Parcel: KES {product.prices.parcel}</p>
-              <button type="button" onClick={() => navigate(`/product/${product.id}`)} className="btn btn-outline" style={{ width: '100%' }}>
-                View product
-              </button>
+              <h2 className="product-title" style={{ fontSize: '1.25rem' }}>{product.name}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 18 }}>
+                {product.prices.single && <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>Single: KES {product.prices.single}</p>}
+                {product.prices.parcel && <p className="product-price" style={{ margin: 0, fontSize: '1.2rem' }}>Parcel: KES {product.prices.parcel}</p>}
+                {product.prices.refill && <p style={{ fontSize: '1rem', color: 'var(--primary)' }}>Refill: KES {product.prices.refill}</p>}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <button type="button" onClick={() => navigate(`/product/${product.id}`)} className="btn btn-outline" style={{ width: '100%', padding: '12px' }}>
+                  Select Options
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -186,7 +191,7 @@ export default function Home() {
           </div>
           <ul style={{ flex: '1 1 280px', listStyle: 'none', display: 'grid', gap: 16 }}>
             <li style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <img src="/images/logo.png" alt="" width={22} height={22} style={{ width: 22, height: 22, objectFit: 'contain', marginTop: 2 }} />
+              <ShieldCheck className="trust-li-icon" color="var(--primary)" size={22} aria-hidden />
               <span style={{ color: 'var(--text-color)' }}><strong>Controlled bottling</strong> — minimal handling from purification to your door.</span>
             </li>
             <li style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
@@ -290,15 +295,15 @@ export default function Home() {
           Ready for pure, safe hydration?
         </h2>
         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: 32, maxWidth: 560, marginInline: 'auto' }}>
-          Order now for doorstep delivery across Nairobi, Machakos, and Makueni. Big, tappable buttons on mobile—built for how Kenyans shop today.
+          Order now for doorstep delivery across Nairobi, Machakos, and Makueni.
         </p>
-        <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg">
+        <button type="button" onClick={() => navigate('/shop')} className="btn btn-lg water-refraction" style={{ color: 'white', WebkitTextFillColor: 'white' }}>
           Order Now
         </button>
       </section>
 
       <footer>
-        <p>&copy; 2026 CrystalDrops. Pure water. Safe delivery.</p>
+        <p>&copy; 2026 CrystalDrops. Clarity in every sip.</p>
       </footer>
 
       <style>{`

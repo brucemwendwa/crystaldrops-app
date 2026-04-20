@@ -38,21 +38,25 @@ function Navbar() {
     navigate('/login');
   };
 
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
+
   const linkStyle = { position: 'relative', display: 'inline-flex', alignItems: 'center', gap: '8px' };
 
   return (
     <nav>
-        <Link to="/home" className="logo" onClick={() => setMenuOpen(false)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Link to="/home" className="logo" onClick={() => setMenuOpen(false)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span className="brand-mark" aria-hidden>
-              <img src="/images/logo.png" alt="" width={42} height={42} />
+              <img src="/images/logo.png" alt="" width={56} height={56} />
             </span>
             <span className="brand-word">
-              Crystal<span>Drops</span>
+              <span style={{ color: 'var(--text-color)' }}>Crystal</span><span>Drops</span>
             </span>
           </div>
-          <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-muted)', fontStyle: 'italic', paddingLeft: 4 }}>
-            'clarity in every sip'
+          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', fontStyle: 'italic' }}>
+            Clarity in every sip
           </span>
         </Link>
 

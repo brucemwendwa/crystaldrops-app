@@ -51,8 +51,8 @@ export default function Cart() {
                 />
 
                 <div style={{ flex: '1 1 160px' }}>
-                  <h2 style={{ fontSize: '1.1rem', marginBottom: 4, color: 'var(--text-color)' }}>{item.name} <span style={{ fontSize: '0.85rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>({item.purchaseType})</span></h2>
-                  <p style={{ color: 'var(--primary)', fontWeight: 700 }}>KES {item.cartPrice} each</p>
+                  <h2 style={{ fontSize: '1.1rem', marginBottom: 4, color: 'var(--text-color)' }}>{item.name}</h2>
+                  <p style={{ color: 'var(--primary)', fontWeight: 700 }}>KES {item.cartPrice} for {item.purchaseType}</p>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-secondary)', borderRadius: 12, border: '1px solid var(--glass-border)' }}>

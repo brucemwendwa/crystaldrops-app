@@ -68,7 +68,7 @@ export default function Shop() {
         ))}
       </div>
 
-      <div className="product-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+      <div className="product-grid">
         {filteredProducts.map((product) => (
           <div key={product.id} className="product-card">
             <button
