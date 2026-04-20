@@ -6,6 +6,20 @@ import { formatApiError } from '../utils/apiError';
 
 const LAST_ORDER_KEY = 'lastOrderSnapshot';
 
+const KENYA_LOCATIONS = {
+  "Nairobi": {
+    "Nairobi City": ["Westlands", "Kilimani", "Kileleshwa", "Lavington", "CBD", "Karen", "Lang'ata", "Kasarani", "Embakasi"]
+  },
+  "Kiambu": {
+    "Kiambu Town": ["Thindigua", "Ridgeways", "Ndumberi"],
+    "Ruiru": ["Kihunguro", "Membley", "Kamakis"],
+    "Thika": ["Makongeni", "Section 9", "Garrisa Road"]
+  },
+  "Machakos": {
+    "Machakos Town": ["Mlolongo", "Athi River", "Syokimau"]
+  }
+};
+
 function normalizePhone(v) {
   return String(v || '').replace(/\D/g, '');
 }
@@ -18,7 +32,7 @@ function isValidKePhone(v) {
 export default function Checkout() {
   const { cart, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: '', phone: '', location: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', county: '', town: '', area: '', landmark: '' });
   const [paymentMethod, setPaymentMethod] = useState('mpesa');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -38,20 +52,30 @@ export default function Checkout() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nextErrors = {};
-    if (!formData.name.trim() || formData.name.trim().length < 3) nextErrors.name = 'Enter your full name (at least 3 characters).';
+    const nameWords = formData.name.trim().split(' ');
+    if (nameWords.length < 2 || /\d/.test(formData.name)) nextErrors.name = 'Enter at least 2-3 words, no numbers.';
     if (!isValidKePhone(formData.phone)) nextErrors.phone = 'Use a valid Kenya number e.g. 254712345678 or 0712345678.';
-    if (!formData.location.trim() || formData.location.trim().length < 3) nextErrors.location = 'Enter a delivery location (at least 3 characters).';
+    
+    if (!formData.county) nextErrors.county = 'Please select a county';
+    if (!formData.town) nextErrors.town = 'Please select a town';
+    if (!formData.area) nextErrors.area = 'Please select an area';
+    
+    const l = formData.landmark.trim().toLowerCase();
+    if (l.length < 5) nextErrors.landmark = 'Address must be at least 5 characters.';
+    if (l === 'home' || l === 'nairobi') nextErrors.landmark = 'Please provide a more specific landmark.';
+
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
     setLoading(true);
 
     try {
+      const fullLocation = `${formData.county}, ${formData.town}, ${formData.area} - ${formData.landmark}`;
       const orderData = {
-        items: cart.map(item => ({ name: item.name, quantity: item.quantity, price: item.price })),
+        items: cart.map(item => ({ name: `${item.name} (${item.purchaseType})`, quantity: item.quantity, price: item.cartPrice })),
         total,
         phone: formData.phone,
         deliveryName: formData.name,
-        deliveryLocation: formData.location,
+        deliveryLocation: fullLocation,
         paymentMethod
       };
 
@@ -126,17 +150,46 @@ export default function Checkout() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="co-loc">Delivery location</label>
+              <label htmlFor="co-county">County</label>
+              <select id="co-county" value={formData.county} onChange={(e) => setFormData({ ...formData, county: e.target.value, town: '', area: '' })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
+                <option value="">Select County</option>
+                {Object.keys(KENYA_LOCATIONS).map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              {errors.county && <div style={{ color: '#dc2626', fontSize: '0.9rem', marginBottom: 12 }}>{errors.county}</div>}
+
+              {formData.county && (
+                <>
+                  <label htmlFor="co-town">Town</label>
+                  <select id="co-town" value={formData.town} onChange={(e) => setFormData({ ...formData, town: e.target.value, area: '' })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
+                    <option value="">Select Town</option>
+                    {Object.keys(KENYA_LOCATIONS[formData.county]).map(t => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                  {errors.town && <div style={{ color: '#dc2626', fontSize: '0.9rem', marginBottom: 12 }}>{errors.town}</div>}
+                </>
+              )}
+
+              {formData.town && (
+                <>
+                  <label htmlFor="co-area">Area</label>
+                  <select id="co-area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} style={{ width: '100%', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--glass-border)', background: 'var(--surface)', marginBottom: 12 }}>
+                    <option value="">Select Area</option>
+                    {KENYA_LOCATIONS[formData.county][formData.town].map(a => <option key={a} value={a}>{a}</option>)}
+                  </select>
+                  {errors.area && <div style={{ color: '#dc2626', fontSize: '0.9rem', marginBottom: 12 }}>{errors.area}</div>}
+                </>
+              )}
+
+              <label htmlFor="co-landmark">Specific Landmark / Address Details</label>
               <input
-                id="co-loc"
+                id="co-landmark"
                 type="text"
-                placeholder="e.g. Westlands, Nairobi"
+                placeholder="e.g. Next to Total Gas Station, Blue Gate"
                 required
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                aria-invalid={Boolean(errors.location)}
+                value={formData.landmark}
+                onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
+                aria-invalid={Boolean(errors.landmark)}
               />
-              {errors.location && <div style={{ marginTop: 8, color: '#dc2626', fontSize: '0.9rem' }}>{errors.location}</div>}
+              {errors.landmark && <div style={{ marginTop: 8, color: '#dc2626', fontSize: '0.9rem' }}>{errors.landmark}</div>}
             </div>
 
             <fieldset style={{ marginTop: 24, border: '1px solid var(--glass-border)', borderRadius: 16, padding: 20 }}>

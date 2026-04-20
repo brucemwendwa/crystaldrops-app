@@ -31,7 +31,7 @@ export default function Cart() {
           <div style={{ background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: 20, overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
             {cart.map((item, index) => (
               <div
-                key={item.id}
+                key={item.cartItemId}
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
@@ -51,14 +51,14 @@ export default function Cart() {
                 />
 
                 <div style={{ flex: '1 1 160px' }}>
-                  <h2 style={{ fontSize: '1.1rem', marginBottom: 4, color: 'var(--text-color)' }}>{item.name}</h2>
-                  <p style={{ color: 'var(--primary)', fontWeight: 700 }}>KES {item.price} each</p>
+                  <h2 style={{ fontSize: '1.1rem', marginBottom: 4, color: 'var(--text-color)' }}>{item.name} <span style={{ fontSize: '0.85rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>({item.purchaseType})</span></h2>
+                  <p style={{ color: 'var(--primary)', fontWeight: 700 }}>KES {item.cartPrice} each</p>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-secondary)', borderRadius: 12, border: '1px solid var(--glass-border)' }}>
                   <button
                     type="button"
-                    onClick={() => updateQuantity(item.id, -1)}
+                    onClick={() => updateQuantity(item.cartItemId, -1)}
                     style={{ padding: '12px 18px', background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', fontSize: '1.2rem', minWidth: 48 }}
                     aria-label="Decrease quantity"
                   >
@@ -67,7 +67,7 @@ export default function Cart() {
                   <span style={{ padding: '0 12px', fontWeight: 700, minWidth: 36, textAlign: 'center' }}>{item.quantity}</span>
                   <button
                     type="button"
-                    onClick={() => updateQuantity(item.id, 1)}
+                    onClick={() => updateQuantity(item.cartItemId, 1)}
                     style={{ padding: '12px 18px', background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', fontSize: '1.2rem', minWidth: 48 }}
                     aria-label="Increase quantity"
                   >
@@ -76,12 +76,12 @@ export default function Cart() {
                 </div>
 
                 <div style={{ fontWeight: 700, fontSize: '1.05rem', minWidth: 100, textAlign: 'right' }}>
-                  KES {item.price * item.quantity}
+                  KES {item.cartPrice * item.quantity}
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item.cartItemId)}
                   style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', padding: 12, marginLeft: 'auto' }}
                   aria-label={`Remove ${item.name}`}
                 >

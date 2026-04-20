@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  role: {
+    type: String,
+    enum: ['customer', 'admin', 'supervisor', 'driver', 'depot_staff', 'factory_worker'],
+    default: 'customer'
   }
 }, { timestamps: true });
 

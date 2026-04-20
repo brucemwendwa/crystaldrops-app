@@ -12,6 +12,11 @@ export default function Auth() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email.includes('@') || !email.includes('.')) {
+      setError('Email must include @ and .');
+      return;
+    }
+    setError('');
     try {
       if (isLogin) {
         const data = await login(email, password);

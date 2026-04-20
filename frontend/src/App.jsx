@@ -42,12 +42,17 @@ function Navbar() {
 
   return (
     <nav>
-        <Link to="/home" className="logo" onClick={() => setMenuOpen(false)}>
-          <span className="brand-mark" aria-hidden>
-            <img src="/images/logo.png" alt="" width={28} height={28} />
-          </span>
-          <span className="brand-word">
-            Crystal<span>Drops</span>
+        <Link to="/home" className="logo" onClick={() => setMenuOpen(false)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="brand-mark" aria-hidden>
+              <img src="/images/logo.png" alt="" width={42} height={42} />
+            </span>
+            <span className="brand-word">
+              Crystal<span>Drops</span>
+            </span>
+          </div>
+          <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-muted)', fontStyle: 'italic', paddingLeft: 4 }}>
+            'clarity in every sip'
           </span>
         </Link>
 

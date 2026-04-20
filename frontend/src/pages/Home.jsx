@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { products } from '../data/products';
 import {
   Award,
   Clock,
@@ -146,40 +147,31 @@ export default function Home() {
         >
           Bottled water sizes for every need—from pocket-friendly 0.5L to office-ready 20L refillable bottles.
         </p>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '1.5rem',
-            maxWidth: 1200,
-            margin: '0 auto'
-          }}
-        >
-          {SIZE_LINKS.map(({ size, id, label }) => (
-            <article key={size} style={{ ...cardStyle, width: 200, textAlign: 'center' }}>
-              <div style={{ display: 'grid', placeItems: 'center', marginBottom: 12 }}>
+        <div className="product-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          {products.map((product) => (
+            <div key={product.id} className="product-card">
+              <button
+                type="button"
+                onClick={() => navigate(`/product/${product.id}`)}
+                style={{ border: 'none', background: 'transparent', padding: 0, width: '100%', cursor: 'pointer' }}
+                aria-label={`View ${product.name}`}
+              >
                 <img
-                  src="/images/bottle.png"
+                  src={product.image}
                   alt=""
-                  width={120}
-                  height={140}
+                  className="product-img"
                   loading="lazy"
-                  style={{ width: '100%', maxWidth: 120, height: 140, objectFit: 'contain' }}
+                  width={280}
+                  height={220}
                 />
-                <div style={{ marginTop: 10, display: 'grid', placeItems: 'center' }}>
-                  <img src="/images/logo.png" alt="" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
-                  <div style={{ fontWeight: 800, fontSize: '0.9rem', marginTop: 6, color: 'var(--text-color)' }}>
-                    CrystalDrops
-                  </div>
-                </div>
-              </div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: 6, color: 'var(--text-color)' }}>{size}</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 16 }}>{label}</p>
-              <button type="button" onClick={() => navigate(`/product/${id}`)} className="btn btn-outline" style={{ width: '100%' }}>
+              </button>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: 6, color: 'var(--text-color)' }}>{product.name}</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 8 }}>{product.size}</p>
+              <p style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 16 }}>Parcel: KES {product.prices.parcel}</p>
+              <button type="button" onClick={() => navigate(`/product/${product.id}`)} className="btn btn-outline" style={{ width: '100%' }}>
                 View product
               </button>
-            </article>
+            </div>
           ))}
         </div>
       </section>

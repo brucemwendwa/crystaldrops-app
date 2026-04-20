@@ -10,6 +10,8 @@ export default function ProductDetails() {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
 
+  const [purchaseType, setPurchaseType] = useState('Parcel');
+
   const product = products.find((p) => p.id === id);
 
   if (!product) {
@@ -22,9 +24,11 @@ export default function ProductDetails() {
   }
 
   const handleAdd = () => {
-    addToCart(product, quantity);
-    window.alert('Added to cart');
+    addToCart(product, quantity, purchaseType);
+    window.alert(`Added ${quantity} ${purchaseType} of ${product.name} to cart`);
   };
+
+  const currentPrice = product.prices[purchaseType.toLowerCase()] || product.price;
 
   return (
     <div className="container" style={{ marginTop: 24, maxWidth: 1000 }}>
@@ -50,11 +54,35 @@ export default function ProductDetails() {
 
         <div>
           <h1 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginBottom: 8, color: 'var(--text-color)' }}>{product.name}</h1>
-          <p style={{ color: 'var(--primary)', fontSize: '1.75rem', fontWeight: 800, marginBottom: 20 }}>KES {product.price}</p>
+          <p style={{ color: 'var(--primary)', fontSize: '1.75rem', fontWeight: 800, marginBottom: 20 }}>KES {currentPrice}</p>
 
           <p style={{ color: 'var(--text-color)', fontSize: '1.05rem', marginBottom: 20, lineHeight: 1.65 }}>
             {product.description}
           </p>
+
+          <div style={{ marginBottom: 20 }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: 12 }}>Purchase Type</h3>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              {['Single', 'Parcel', 'Refill'].map(type => {
+                const price = product.prices[type.toLowerCase()];
+                if (!price) return null;
+                return (
+                  <label key={type} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', background: 'var(--surface)', padding: '10px 16px', borderRadius: 8, border: purchaseType === type ? '2px solid var(--primary)' : '1px solid var(--glass-border)' }}>
+                    <input
+                      type="radio"
+                      name="purchaseType"
+                      value={type}
+                      checked={purchaseType === type}
+                      onChange={() => setPurchaseType(type)}
+                      style={{ display: 'none' }}
+                    />
+                    <span style={{ fontWeight: 600 }}>{type}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>KES {price}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
 
           <div style={{ marginBottom: 20, padding: 18, borderRadius: 14, background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)' }}>
             <p style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 12, color: 'var(--text-color)' }}>
@@ -102,7 +130,7 @@ export default function ProductDetails() {
           </div>
 
           <button type="button" onClick={handleAdd} className="btn btn-lg" style={{ width: '100%' }}>
-            Add to cart — KES {product.price * quantity}
+            Add to cart — KES {currentPrice * quantity}
           </button>
         </div>
       </div>

@@ -68,7 +68,7 @@ export default function Shop() {
         ))}
       </div>
 
-      <div className="product-grid">
+      <div className="product-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
         {filteredProducts.map((product) => (
           <div key={product.id} className="product-card">
             <button
@@ -87,21 +87,14 @@ export default function Shop() {
               />
             </button>
             <h2 className="product-title" style={{ fontSize: '1.25rem' }}>{product.name}</h2>
-            <p className="product-price">KES {product.price}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 18 }}>
+              {product.prices.single && <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>Single: KES {product.prices.single}</p>}
+              <p className="product-price" style={{ margin: 0, fontSize: '1.2rem' }}>Parcel: KES {product.prices.parcel}</p>
+              {product.prices.refill && <p style={{ fontSize: '1rem', color: 'var(--primary)' }}>Refill: KES {product.prices.refill}</p>}
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <button type="button" onClick={() => navigate(`/product/${product.id}`)} className="btn btn-outline" style={{ width: '100%', padding: '12px' }}>
-                Details
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  addToCart(product, 1);
-                  window.alert(`${product.name} added to cart`);
-                }}
-                className="btn"
-                style={{ width: '100%', padding: '12px' }}
-              >
-                Add to cart
+                Select Options
               </button>
             </div>
           </div>

@@ -6,67 +6,61 @@ export const products = [
   {
     id: 'cd-05l',
     name: 'CrystalDrops 0.5L',
-    price: 30,
+    price: 30, // Default display price (single)
     size: '0.5L',
-    image: '/images/bottle.png',
+    image: '/images/bottle_05l.png',
     description: 'Perfect for quick hydration on the go. Fits easily in bags and cup holders.',
-    source,
-    purification,
-    benefits
+    prices: { single: 30, parcel: 350 },
+    source, purification, benefits
   },
   {
     id: 'cd-1l',
     name: 'CrystalDrops 1L',
-    price: 50,
+    price: 40,
     size: '1L',
-    image: '/images/bottle.png',
+    image: '/images/bottle_1l.png',
     description: 'The standard size for daily hydration. Ideal for meals and workouts.',
-    source,
-    purification,
-    benefits
+    prices: { single: 40, parcel: 350 },
+    source, purification, benefits
   },
   {
     id: 'cd-15l',
     name: 'CrystalDrops 1.5L',
-    price: 60,
+    price: 50,
     size: '1.5L',
-    image: '/images/bottle.png',
+    image: '/images/bottle_15l.png',
     description: 'Great for sharing or keeping on your desk throughout the workday.',
-    source,
-    purification,
-    benefits
+    prices: { single: 50, parcel: 350, refill: 10 },
+    source, purification, benefits
   },
   {
     id: 'cd-5l',
-    name: 'CrystalDrops 5L Jug',
+    name: 'CrystalDrops 5L',
     price: 100,
     size: '5L',
-    image: '/images/bottle.png',
+    image: '/images/bottle_5l.png',
     description: 'Perfect for small families or weekend trips. Easy-pour handle.',
-    source,
-    purification,
-    benefits
+    prices: { single: 100, parcel: 350, refill: 50 },
+    source, purification, benefits
   },
   {
     id: 'cd-10l',
     name: 'CrystalDrops 10L',
-    price: 270,
+    price: 280,
     size: '10L',
-    image: '/images/bottle.png',
+    image: '/images/bottle_10l.png',
     description: 'Great for households that want fewer deliveries. Easy-carry and easy-pour.',
-    source,
-    purification,
-    benefits
+    prices: { parcel: 280, refill: 100 },
+    source, purification, benefits
   },
   {
     id: 'cd-20l',
-    name: '20L Refillable Bottle',
+    name: 'CrystalDrops 20L',
     price: 380,
     size: '20L',
-    image: '/images/bottle.png',
+    image: '/images/bottle_20l.png',
     description: 'Designed for water dispensers—the most economical choice for homes and offices. Refill program available.',
-    source,
-    purification,
-    benefits
+    prices: { parcel: 380, refill: 200 },
+    source, purification, benefits
   }
 ];
